@@ -4,63 +4,62 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue) ![Langchain](https://img.shields.io/badge/Langchain-Enabled-green) ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
 
+---
+
 ## 📌 Project Overview
 
-This project demonstrates how to build a **Streamlit-based chatbot** integrated with **Langchain** and **OpenAI LLMs** to enable natural language interaction with a **MySQL database**. The chatbot interprets user queries in plain English, translates them into SQL queries, fetches the data, and visualizes the results — streamlining the data exploration process for non-technical users.
+This project demonstrates how to build an **LLM-powered chatbot** using **Streamlit**, **Langchain**, and **OpenAI** to allow **natural language interaction** with a SQL database. The chatbot interprets user prompts in plain English, translates them to SQL queries, fetches the data, and generates real-time visualizations. It empowers non-technical users to explore data and derive insights without writing code.
 
-## 🎯 What You'll Learn
+---
 
-* Understand LLMs, attention mechanisms, and transformer architecture
-* Explore use cases of LLMs in real-world applications
-* Get started with Langchain and prompt engineering
-* Connect LLMs to SQL databases for query generation
-* Automatically generate and run Python code for data visualization
-* Build a fully functional Streamlit chatbot application
+## 🎯 What You’ll Learn
 
-## 📦 Repository Contents
+* Understand how LLMs (like GPT-4) generate SQL queries and Python code
+* Use Langchain to integrate LLMs with external tools
+* Apply prompt engineering to interact with LLMs effectively
+* Use Streamlit to create a chatbot UI
+* Visualize data using auto-generated Matplotlib and Plotly code
+* Access and query SQL databases using natural language
+
+---
+
+## 📁 Repository Structure
 
 ```
 .
-├── agent.py               # Langchain agents for SQL and Python code generation
-├── chat_app.py           # Streamlit-based chatbot UI
-├── helper.py             # Utility functions for prompt formatting and query parsing
-├── requirements.txt      # All required dependencies
-├── stream_lit_demo.py    # Alternate Streamlit launcher
-├── Query_To_Dashboard-2.ipynb  # Notebook version for debugging and experimentation
+├── agent.py               # Langchain agents for SQL and Python generation
+├── chat_app.py           # Main Streamlit chatbot app
+├── helper.py             # Prompt templates and helper logic
+├── Query_To_Dashboard-2.ipynb  # Jupyter notebook version
+├── requirements.txt      # Python dependencies
+├── stream_lit_demo.py    # Alternative Streamlit demo file
 └── README.md             # Project documentation
 ```
 
-## 🧠 Tech Stack
+---
 
-* **Programming Language**: Python 3.10.4
-* **Frontend**: Streamlit
-* **Backend**: MySQL (via `mysql-connector-python` and `mysqlclient`)
-* **LLM Framework**: Langchain
+## 🛠️ Tech Stack
+
+* **Language**: Python 3.10.4
+* **LLM Provider**: OpenAI GPT-4 / GPT-3.5 Turbo
+* **Frameworks**: Langchain, Streamlit
+* **Database**: MySQL
 * **Visualization**: Matplotlib, Plotly
-* **Model**: OpenAI GPT-3.5 Turbo / GPT-4 Turbo
 
-## 🗂️ Dataset Description
+---
 
-The e-commerce dataset consists of 7 interconnected tables:
+## 🧩 Step-by-Step Project Execution
 
-* `distribution_centers`: IDs, names, and coordinates of distribution centers
-* `events`: User events including timestamps and actions
-* `inventory_items`: Product inventory across centers
-* `order_items`: Detailed order breakdown
-* `orders`: Master order metadata
-* `products`: Product attributes and pricing
-* `users`: User profile and traffic information
+### ✅ Step 1: Set Up the Environment
 
-## 🛠️ Setup Instructions
-
-1. **Clone this repository**
+1. Clone the repo:
 
    ```bash
    git clone https://github.com/sathvik6198/LLM-SQL-Chatbot.git
    cd LLM-SQL-Chatbot
    ```
 
-2. **Create virtual environment (optional but recommended)**
+2. (Optional) Create a virtual environment:
 
    ```bash
    python -m venv venv
@@ -68,43 +67,138 @@ The e-commerce dataset consists of 7 interconnected tables:
    venv\Scripts\activate     # Windows
    ```
 
-3. **Install required packages**
+3. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Set up MySQL**
+---
 
-   * Install MySQL and MySQL Workbench
-   * Create a database and import the 7 CSV files
+### ✅ Step 2: Prepare the Database
 
-5. **Run the Streamlit App**
+1. Install MySQL and MySQL Workbench.
 
-   ```bash
-   streamlit run chat_app.py
+2. Create a new database called `ecommerce`.
+
+3. Import the provided 7 CSV files into 7 tables:
+
+   * `distribution_centers`
+   * `events`
+   * `inventory_items`
+   * `order_items`
+   * `orders`
+   * `products`
+   * `users`
+
+4. Verify the schema using:
+
+   ```sql
+   SHOW TABLES;
    ```
 
-## 💡 Project Highlights
+---
 
-* Converts natural language to SQL using Langchain
-* Visualizes results with auto-generated Python code
-* Includes guardrails and memory for consistent responses
-* Easy to extend for new datasets or visualizations
+### ✅ Step 3: Prompt Engineering & Langchain Agents
 
-## 💰 Cost Estimation (OpenAI API)
+1. Define prompt templates in `helper.py` for:
 
-| Model         | Cost per 1K tokens                  | Est. Total Cost for 100 queries |
-| ------------- | ----------------------------------- | ------------------------------- |
-| GPT-3.5 Turbo | \$0.0015 (input) / \$0.002 (output) | \~\$0.35–\$0.50                 |
-| GPT-4 Turbo   | \$0.01 (input) / \$0.03 (output)    | \~\$5.00–\$10.00                |
+   * SQL generation (e.g., “What are top-selling products last month?”)
+   * Visualization code (e.g., “Bar chart of orders by city”)
 
-Use GPT-3.5 for most interactions to save cost, and GPT-4 for complex logic.
+2. Set up agents in `agent.py` using Langchain:
 
-> Note: Ensure your OpenAI account has available quota or free credits.
+   * SQL Agent: Converts user query to SQL
+   * Python Agent: Converts user intent to Python visualization code
 
-## 🚀 Future Enhancements
+3. Chain agents for multi-step tasks:
 
-* Add role-based access for different user types
-* Expand to support NoSQL databases
-* Deploy on AWS/GCP/Azure for broader accessibility
+   * Natural Language → SQL → Python → Visualization
+
+---
+
+### ✅ Step 4: Build the Streamlit Chatbot
+
+Run the chatbot:
+
+```bash
+streamlit run chat_app.py
+```
+
+Features:
+
+* Accepts user input in plain English
+* Displays auto-generated SQL code
+* Runs SQL and retrieves data
+* Generates Python visualization code using LLM
+* Renders chart output in real-time
+
+---
+
+## 📊 Dataset Description
+
+This project uses an **e-commerce dataset** with 7 interconnected tables:
+
+| Table                  | Description                     |
+| ---------------------- | ------------------------------- |
+| `distribution_centers` | Center details (name, location) |
+| `events`               | User session activity logs      |
+| `inventory_items`      | Product inventory per center    |
+| `order_items`          | Items per order                 |
+| `orders`               | Order details (status, time)    |
+| `products`             | SKU details and pricing         |
+| `users`                | User demographics and source    |
+
+---
+
+## 💡 Sample Prompts
+
+Try these in the chatbot:
+
+* “Show me the number of orders by city”
+* “Visualize user signups by month”
+* “Top 5 selling products by revenue”
+* “Bar chart of canceled orders by browser”
+
+---
+
+## 💰 OpenAI Cost Info
+
+| Model         | Cost per 1K Tokens                  | Use Case                         |
+| ------------- | ----------------------------------- | -------------------------------- |
+| GPT-3.5 Turbo | \$0.0015 (input) / \$0.002 (output) | Basic queries & visualizations   |
+| GPT-4 Turbo   | \$0.01 (input) / \$0.03 (output)    | Advanced analytics and reasoning |
+
+**Tip:** Set `model_name = "gpt-3.5-turbo"` in `agent.py` to reduce cost.
+
+> ⚠️ You must have an [OpenAI account](https://platform.openai.com/account/api-keys) with available quota or billing enabled.
+
+---
+
+## 📌 Final Outcome
+
+You’ll have an **interactive dashboard agent** that:
+
+* Accepts natural language input
+* Generates insights from a SQL database
+* Creates data visualizations automatically
+* Makes analytics accessible to non-technical users
+
+---
+
+## 📌 Future Enhancements
+
+* Add authentication to restrict access
+* Support multi-database connections
+* Deploy on AWS or GCP
+* Add support for CSV uploads
+
+---
+
+## 🧠 Credits
+
+Project inspired by educational use cases from:
+
+* Langchain documentation
+* Streamlit community
+* ProjectPro’s “EDA using LLMs” guide
